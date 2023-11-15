@@ -41,7 +41,7 @@ class AlphaBetaPlayer(Player):
         self.depth = int(depth)
         self.prunning = str(prunning).lower() != "false"
         self.value_fn_builder_name = (
-            "contender_fn" if value_fn_builder_name == "C" else "base_fn"
+            "adversarial_fn" if value_fn_builder_name == "A" else "contender_fn" if value_fn_builder_name == "C" else "base_fn"
         )
         self.params = params
         self.use_value_function = None
