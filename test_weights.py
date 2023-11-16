@@ -12,10 +12,10 @@ test_weights['enemy_production'] = -5e8
 
 
 players = [
-    AlphaBetaPlayer(Color.RED, params=test_weights, value_fn_builder_name="A"),
+    AlphaBetaPlayer(Color.RED, params=test_weights, value_fn_builder_name="C"),
     AlphaBetaPlayer(Color.BLUE)
 ]
 
-wins, results_by_player, games = play_batch(10, players)
+wins, results_by_player, games = play_batch(2, players)
 
 

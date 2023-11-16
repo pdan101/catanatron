@@ -18,6 +18,8 @@ from catanatron.models.player import Color
 from catanatron.models.map import build_map
 from catanatron.state_functions import get_actual_victory_points
 
+import numpy as np
+
 # try to suppress TF output before any potentially tf-importing modules
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 from catanatron_experimental.utils import ensure_dir, formatSecs
@@ -346,40 +348,70 @@ def play_batch(
     table.add_column("", no_wrap=True)
     table.add_column("WINS", justify="right")
     table.add_column("AVG VP", justify="right")
+    table.add_column("STD VP", justify="right")
+
     table.add_column("AVG SETTLES", justify="right")
+    table.add_column("STD SETTLES", justify="right")
+
     table.add_column("AVG CITIES", justify="right")
+    table.add_column("STD CITIES", justify="right")
+
     table.add_column("AVG ROAD", justify="right")
+    table.add_column("STD ROAD", justify="right")
+
     table.add_column("AVG ARMY", justify="right")
+    table.add_column("STD ARMY", justify="right")
+
     table.add_column("AVG DEV VP", justify="right")
+    table.add_column("STD DEV VP", justify="right")
+
     for player in players:
         vps = statistics_accumulator.results_by_player[player.color]
         avg_vps = sum(vps) / len(vps)
+        std_vps = np.sqrt(sum((x - avg_vps) ** 2 for x in vps) / len(vps))
         avg_settlements = vp_accumulator.get_avg_settlements(player.color)
+        std_settlements = vp_accumulator.get_std_dev_settlements(player.color)
         avg_cities = vp_accumulator.get_avg_cities(player.color)
+        std_cities = vp_accumulator.get_std_dev_cities(player.color)
         avg_largest = vp_accumulator.get_avg_largest(player.color)
+        std_largest = vp_accumulator.get_std_dev_largest(player.color)
         avg_longest = vp_accumulator.get_avg_longest(player.color)
+        std_longest = vp_accumulator.get_std_dev_longest(player.color)
         avg_devvps = vp_accumulator.get_avg_devvps(player.color)
+        std_devvps = vp_accumulator.get_std_dev_devvps(player.color)
         table.add_row(
             rich_player_name(player),
             str(statistics_accumulator.wins[player.color]),
             f"{avg_vps:.2f}",
+            f"{std_vps:.2f}",
             f"{avg_settlements:.2f}",
+            f"{std_settlements:.2f}",
             f"{avg_cities:.2f}",
+            f"{std_cities:.2f}",
             f"{avg_longest:.2f}",
+            f"{std_longest:.2f}",
             f"{avg_largest:.2f}",
+            f"{std_largest:.2f}",
             f"{avg_devvps:.2f}",
+            f"{std_devvps:.2f}",
         )
     console.print(table)
 
     # ===== GAME SUMMARY
     avg_ticks = f"{statistics_accumulator.get_avg_ticks():.2f}"
+    std_ticks = f"{statistics_accumulator.get_std_dev_ticks():.2f}"
     avg_turns = f"{statistics_accumulator.get_avg_turns():.2f}"
+    std_turns = f"{statistics_accumulator.get_std_dev_turns():.2f}"
     avg_duration = formatSecs(statistics_accumulator.get_avg_duration())
+    std_duration = formatSecs(statistics_accumulator.get_std_dev_duration())
     table = Table(box=box.MINIMAL, title="Game Summary")
     table.add_column("AVG TICKS", justify="right")
+    table.add_column("STD TICKS", justify="right")
     table.add_column("AVG TURNS", justify="right")
+    table.add_column("STD TURNS", justify="right")
     table.add_column("AVG DURATION", justify="right")
-    table.add_row(avg_ticks, avg_turns, avg_duration)
+    table.add_column("STD DURATION", justify="right")
+    table.add_row(avg_ticks, std_ticks, avg_turns, std_turns, avg_duration, std_duration)
     console.print(table)
 
     if output_options.output and output_options.csv:

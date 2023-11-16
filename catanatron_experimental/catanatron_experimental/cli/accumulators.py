@@ -97,6 +97,41 @@ class VpDistributionAccumulator(GameAccumulator):
             return sum(self.devvps.values()) / self.num_games
         else:
             return self.devvps[color] / self.num_games
+        
+    def get_std_dev_cities(self, color=None):
+        mean = self.get_avg_cities(color)
+        if color is None:
+            return np.sqrt(sum((x - mean) ** 2 for x in self.cities.values()) / self.num_games)
+        else:
+            return np.sqrt((self.cities[color] - mean) ** 2 / self.num_games)
+
+    def get_std_dev_settlements(self, color=None):
+        mean = self.get_avg_settlements(color)
+        if color is None:
+            return np.sqrt(sum((x - mean) ** 2 for x in self.settlements.values()) / self.num_games)
+        else:
+            return np.sqrt((self.settlements[color] - mean) ** 2 / self.num_games)
+
+    def get_std_dev_longest(self, color=None):
+        mean = self.get_avg_longest(color)
+        if color is None:
+            return np.sqrt(sum((x - mean) ** 2 for x in self.longest.values()) / self.num_games)
+        else:
+            return np.sqrt((self.longest[color] - mean) ** 2 / self.num_games)
+
+    def get_std_dev_largest(self, color=None):
+        mean = self.get_avg_largest(color)
+        if color is None:
+            return np.sqrt(sum((x - mean) ** 2 for x in self.largest.values()) / self.num_games)
+        else:
+            return np.sqrt((self.largest[color] - mean) ** 2 / self.num_games)
+
+    def get_std_dev_devvps(self, color=None):
+        mean = self.get_avg_devvps(color)
+        if color is None:
+            return np.sqrt(sum((x - mean) ** 2 for x in self.devvps.values()) / self.num_games)
+        else:
+            return np.sqrt((self.devvps[color] - mean) ** 2 / self.num_games)
 
 
 class StatisticsAccumulator(GameAccumulator):
@@ -135,6 +170,18 @@ class StatisticsAccumulator(GameAccumulator):
 
     def get_avg_duration(self):
         return sum(self.durations) / len(self.durations)
+    
+    def get_std_dev_ticks(self):
+        mean_ticks = self.get_avg_ticks()
+        return np.sqrt(sum((tick - mean_ticks) ** 2 for tick in self.ticks) / len(self.ticks))
+
+    def get_std_dev_turns(self):
+        mean_turns = self.get_avg_turns()
+        return np.sqrt(sum((turn - mean_turns) ** 2 for turn in self.turns) / len(self.turns))
+
+    def get_std_dev_duration(self):
+        mean_durations = self.get_avg_duration()
+        return np.sqrt(sum((duration - mean_durations) ** 2 for duration in self.durations) / len(self.durations))
 
 
 class StepDatabaseAccumulator(GameAccumulator):
