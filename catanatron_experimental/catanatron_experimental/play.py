@@ -218,7 +218,8 @@ COLOR_TO_RICH_STYLE = {
 
 def rich_player_name(player):
     style = COLOR_TO_RICH_STYLE[player.color]
-    return f"[{style}]{player}[/{style}]"
+    str_rep = f"[{style}]{player}[/{style}]"
+    return str_rep[:str_rep.find('(')]
 
 
 def rich_color(color):
