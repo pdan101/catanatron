@@ -16,5 +16,5 @@ class RandomPlayer(Player):
     # ===== YOUR CODE HERE =====
     # As an example we simply return the first action:
     action_idx = random.randint(0, len(playable_actions) - 1)
-    return playable_actions[action_idx]
+    return playable_actions[0]
     # ===== END YOUR CODE =====
