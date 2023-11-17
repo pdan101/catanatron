@@ -1,6 +1,7 @@
 from catanatron import Game, RandomPlayer, Color
 
 from catanatron_experimental.machine_learning.players.minimax import AlphaBetaPlayer
+from catanatron_experimental.machine_learning.players.minimax import random
 from catanatron_experimental.play import play_batch
 
 from catanatron_experimental.machine_learning.players.value import DEFAULT_WEIGHTS
@@ -12,10 +13,11 @@ test_weights['enemy_production'] = -5e8
 
 
 players = [
-    AlphaBetaPlayer(Color.RED, params=test_weights, value_fn_builder_name="C"),
+    # AlphaBetaPlayer(Color.RED, params=test_weights, value_fn_builder_name="A"),
+    RandomPlayer(Color.RED),
     AlphaBetaPlayer(Color.BLUE)
 ]
 
-wins, results_by_player, games = play_batch(2, players)
+wins, results_by_player, games = play_batch(10, players)
 
 
