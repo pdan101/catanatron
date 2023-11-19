@@ -1,4 +1,5 @@
 import random
+import pandas as pd
 
 from catanatron.state_functions import (
     get_longest_road_length,
@@ -169,21 +170,20 @@ def adversarial_fn(params=DEFAULT_WEIGHTS):
         )
         
         return float(
-            # game.state.player_state[f"{key}_VICTORY_POINTS"] * params["public_vps"]
-            # + production * params["production"]
-            enemy_production * params["enemy_production"]
-            # + reachable_production_at_zero * params["reachable_production_0"]
-            # + reachable_production_at_one * params["reachable_production_1"]
-            # + hand_synergy * params["hand_synergy"]
-            # + num_buildable_nodes * params["buildable_nodes"]
-            # + num_tiles * params["num_tiles"]
-            # + num_in_hand * params["hand_resources"]
-            # + discard_penalty
-            # + longest_road_length * longest_road_factor
-            # + player_num_dev_cards(game.state, p0_color) * params["hand_devs"]
-            # + get_played_dev_cards(game.state, p0_color, "KNIGHT") * params["army_size"]
+            game.state.player_state[f"{key}_VICTORY_POINTS"] * params["public_vps"]
+            + production * params["production"]
+            + enemy_production * params["enemy_production"]
+            + reachable_production_at_zero * params["reachable_production_0"]
+            + reachable_production_at_one * params["reachable_production_1"]
+            + hand_synergy * params["hand_synergy"]
+            + num_buildable_nodes * params["buildable_nodes"]
+            + num_tiles * params["num_tiles"]
+            + num_in_hand * params["hand_resources"]
+            + discard_penalty
+            + longest_road_length * longest_road_factor
+            + player_num_dev_cards(game.state, p0_color) * params["hand_devs"]
+            + get_played_dev_cards(game.state, p0_color, "KNIGHT") * params["army_size"]
         )
-
     return fn
 
 def value_production(sample, player_name="P0", include_variety=True):

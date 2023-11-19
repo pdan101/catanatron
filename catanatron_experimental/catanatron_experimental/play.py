@@ -2,6 +2,7 @@ import os
 import importlib.util
 from dataclasses import dataclass
 from typing import Literal, Union
+import pandas as pd
 
 import click
 from rich.console import Console
@@ -252,12 +253,14 @@ def play_batch_core(num_games, players, game_config, accumulators=[]):
             accumulator.after_all()
 
 
-def play_batch(
+def play_batch(  
     num_games,
     players,
     output_options=None,
     game_config=None,
     quiet=False,
+    idx = 0, 
+    player_names = ['']
 ):
     output_options = output_options or OutputOptions()
     game_config = game_config or GameConfigOptions()
@@ -348,25 +351,27 @@ def play_batch(
     table = Table(title="Player Summary", box=box.MINIMAL)
     table.add_column("", no_wrap=True)
     table.add_column("WINS", justify="right")
-    table.add_column("AVG VP", justify="right")
-    table.add_column("STD VP", justify="right")
+    table.add_column("AVG_VP", justify="right")
+    table.add_column("STD_VP", justify="right")
 
-    table.add_column("AVG SETTLES", justify="right")
-    table.add_column("STD SETTLES", justify="right")
+    table.add_column("AVG_SETTLES", justify="right")
+    table.add_column("STD_SETTLES", justify="right")
 
-    table.add_column("AVG CITIES", justify="right")
-    table.add_column("STD CITIES", justify="right")
+    table.add_column("AVG_CITIES", justify="right")
+    table.add_column("STD_CITIES", justify="right")
 
-    table.add_column("AVG ROAD", justify="right")
-    table.add_column("STD ROAD", justify="right")
+    table.add_column("AVG_ROAD", justify="right")
+    table.add_column("STD_ROAD", justify="right")
 
-    table.add_column("AVG ARMY", justify="right")
-    table.add_column("STD ARMY", justify="right")
+    table.add_column("AVG_ARMY", justify="right")
+    table.add_column("STD_ARMY", justify="right")
 
-    table.add_column("AVG DEV VP", justify="right")
-    table.add_column("STD DEV VP", justify="right")
+    table.add_column("AVG_DEV_VP", justify="right")
+    table.add_column("STD_DEV_VP", justify="right")
 
-    for player in players:
+    table.add_column("GAME_IDX", justify="right")
+    table.add_column("PLAYER_TYPE", justify="right")
+    for player_idx, player in enumerate(players):
         vps = statistics_accumulator.results_by_player[player.color]
         avg_vps = sum(vps) / len(vps)
         std_vps = np.sqrt(sum((x - avg_vps) ** 2 for x in vps) / len(vps))
@@ -395,8 +400,17 @@ def play_batch(
             f"{std_largest:.2f}",
             f"{avg_devvps:.2f}",
             f"{std_devvps:.2f}",
+            f"{idx}",
+            f"{player_names[player_idx]}"
         )
     console.print(table)
+    # Extract data and column names from Rich Table
+    table_data = {
+        x.header: [Text.from_markup(y).plain for y in x.cells] for x in table.columns
+    }
+
+    # Create a DataFrame
+    df_p = pd.DataFrame(table_data)
 
     # ===== GAME SUMMARY
     avg_ticks = f"{statistics_accumulator.get_avg_ticks():.2f}"
@@ -406,14 +420,24 @@ def play_batch(
     avg_duration = formatSecs(statistics_accumulator.get_avg_duration())
     std_duration = formatSecs(statistics_accumulator.get_std_dev_duration())
     table = Table(box=box.MINIMAL, title="Game Summary")
-    table.add_column("AVG TICKS", justify="right")
-    table.add_column("STD TICKS", justify="right")
-    table.add_column("AVG TURNS", justify="right")
-    table.add_column("STD TURNS", justify="right")
-    table.add_column("AVG DURATION", justify="right")
-    table.add_column("STD DURATION", justify="right")
-    table.add_row(avg_ticks, std_ticks, avg_turns, std_turns, avg_duration, std_duration)
+    table.add_column("AVG_TICKS", justify="right")
+    table.add_column("STD_TICKS", justify="right")
+    table.add_column("AVG_TURNS", justify="right")
+    table.add_column("STD_TURNS", justify="right")
+    table.add_column("AVG_DURATION", justify="right")
+    table.add_column("STD_DURATION", justify="right")
+    table.add_column("GAME_IDX", justify="right")
+    table.add_column("PLAYER1", justify="right")
+    table.add_column("PLAYER2", justify="right")
+    table.add_row(avg_ticks, std_ticks, avg_turns, std_turns, avg_duration, std_duration, str(idx), player_names[0], player_names[1])
     console.print(table)
+    # Extract data and column names from Rich Table
+    table_data = {
+        x.header: [Text.from_markup(y).plain for y in x.cells] for x in table.columns
+    }
+
+    # Create a DataFrame
+    df_g = pd.DataFrame(table_data)
 
     if output_options.output and output_options.csv:
         console.print(f"GZIP CSVs saved at: [green]{output_options.output}[/green]")
@@ -422,6 +446,7 @@ def play_batch(
         dict(statistics_accumulator.wins),
         dict(statistics_accumulator.results_by_player),
         statistics_accumulator.games,
+        df_g, df_p
     )
 
 

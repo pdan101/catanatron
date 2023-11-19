@@ -9,6 +9,7 @@ class Color(Enum):
     BLUE = "BLUE"
     ORANGE = "ORANGE"
     WHITE = "WHITE"
+    # PURPLE = "PURPLE"
 
 
 class Player:
