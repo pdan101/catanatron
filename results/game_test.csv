@@ -1,13 +1,5 @@
 ,AVG_TICKS,STD_TICKS,AVG_TURNS,STD_TURNS,AVG_DURATION,STD_DURATION,GAME_IDX,PLAYER1,PLAYER2
-0,206.80,51.15,70.74,17.76,2.021 secs,0.746 secs,0,abFullAd,ab
-0,177.15,49.38,63.19,17.90,3.042 secs,1.149 secs,1,abFullAd,mcts
-0,178.31,49.96,64.60,18.76,0.808 secs,0.286 secs,2,abFullAd,random
-0,205.08,45.90,70.77,16.12,2.143 secs,0.774 secs,3,abMixedAd,ab
-0,197.16,63.07,70.71,23.37,3.333 secs,1.384 secs,4,abMixedAd,mcts
-0,184.04,49.64,66.43,18.09,0.814 secs,0.264 secs,5,abMixedAd,random
-0,203.92,54.39,70.62,19.10,2.093 secs,0.877 secs,6,abFullPr,ab
-0,184.40,59.06,65.84,21.78,3.293 secs,1.397 secs,7,abFullPr,mcts
-0,173.76,45.61,62.79,17.49,0.837 secs,0.283 secs,8,abFullPr,random
-0,206.71,49.64,71.03,17.01,2.163 secs,0.800 secs,9,abMixedPr,ab
-0,177.37,45.82,63.30,16.91,3.051 secs,1.207 secs,10,abMixedPr,mcts
-0,189.83,44.69,69.09,16.68,0.862 secs,0.297 secs,11,abMixedPr,random
+0,232.45,73.56,84.30,27.30,8.117 secs,3.444 secs,0,abFullAd,ab
+0,194.20,45.91,67.35,16.53,7.549 secs,2.845 secs,1,abMixedAd,ab
+0,197.10,34.49,71.95,13.73,6.563 secs,1.939 secs,2,abFullPr,ab
+0,204.85,43.85,70.65,14.63,8.603 secs,3.461 secs,3,abMixedPr,ab
