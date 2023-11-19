@@ -9,7 +9,7 @@ from catanatron_experimental.machine_learning.players.value import DEFAULT_WEIGH
 from itertools import product
 import pandas as pd
 
-NUM_GAMES_EACH_SETTING = 20
+NUM_GAMES_EACH_SETTING = 2
 ######## DataFrame for output data ##############################
 player_summary = pd.DataFrame()
 game_summary = pd.DataFrame()
@@ -54,7 +54,7 @@ mcts = MCTSPlayer(Color.BLUE)
 Random = RandomPlayer(Color.WHITE)
 
 base_agents = {AlphaBeta: 'ab', mcts: 'mcts', Random: 'random'}
-base_agents = {AlphaBeta: 'ab'}
+# base_agents = {Random: 'random'}
 
 ######## Define the set of players for each game ################
 num_comp = len(base_agents.keys()) * len(new_agents.keys())
@@ -84,9 +84,10 @@ for idx, (new_agent, base_agent) in enumerate(comp):
 
 # game_summary = pd.concat([game_summary, df_g], axis = 0)
 # player_summary = pd.concat([player_summary, df_p], axis = 0)
-
-game_summary.to_csv("./results/game_test.csv")
-player_summary.to_csv("./results/player_test.csv")
+import time 
+timestr = time.strftime("%Y%m%d-%H%M%S")
+game_summary.to_csv(f"./results/game_test_{timestr}.csv")
+player_summary.to_csv(f"./results/player_test_{timestr}.csv")
 
 
 
