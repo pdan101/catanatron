@@ -9,7 +9,7 @@ from catanatron_experimental.machine_learning.players.value import DEFAULT_WEIGH
 from itertools import product
 import pandas as pd
 
-NUM_GAMES_EACH_SETTING = 2
+NUM_GAMES_EACH_SETTING = 100
 ######## DataFrame for output data ##############################
 player_summary = pd.DataFrame()
 game_summary = pd.DataFrame()
