@@ -9,7 +9,7 @@ from catanatron_experimental.machine_learning.players.value import DEFAULT_WEIGH
 from itertools import product
 import pandas as pd
 
-NUM_GAMES_EACH_SETTING = 100
+NUM_GAMES_EACH_SETTING = 200
 ######## DataFrame for output data ##############################
 player_summary = pd.DataFrame()
 game_summary = pd.DataFrame()
@@ -47,7 +47,8 @@ AlphaBetaMixedAd = AlphaBetaPlayer(Color.RED, params=AlphaBetaMixedAd_w, value_f
 AlphaBetaFullPr = AlphaBetaPlayer(Color.RED, params=AlphaBetaFullPr_w, value_fn_builder_name="A")
 AlphaBetaMixedPr = AlphaBetaPlayer(Color.RED, params=AlphaBetaMixedPr_w, value_fn_builder_name="A")
 
-new_agents = {AlphaBetaFullAd: 'abFullAd', AlphaBetaMixedAd: 'abMixedAd', AlphaBetaFullPr: 'abFullPr', AlphaBetaMixedPr: 'abMixedPr'} 
+# new_agents = {AlphaBetaFullAd: 'abFullAd', AlphaBetaMixedAd: 'abMixedAd', AlphaBetaFullPr: 'abFullPr', AlphaBetaMixedPr: 'abMixedPr'} 
+new_agents = {AlphaBetaMixedAd: 'abMixedAd', AlphaBetaFullPr: 'abFullPr'} 
 ######### Define the baseline players ############################
 AlphaBeta = AlphaBetaPlayer(Color.ORANGE)
 mcts = MCTSPlayer(Color.BLUE)
