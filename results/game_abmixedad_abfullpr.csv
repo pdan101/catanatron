@@ -1,0 +1,7 @@
+,AVG_TICKS,STD_TICKS,AVG_TURNS,STD_TURNS,AVG_DURATION,STD_DURATION,GAME_IDX,PLAYER1,PLAYER2
+0,206.09,52.03,71.36,18.43,2.073 secs,0.742 secs,0,abMixedAd,ab
+0,188.06,56.16,67.08,20.69,3.146 secs,1.294 secs,1,abMixedAd,mcts
+0,183.03,44.91,66.22,16.86,0.831 secs,0.287 secs,2,abMixedAd,random
+0,204.74,52.02,70.49,18.32,2.061 secs,0.803 secs,3,abFullPr,ab
+0,189.22,56.32,67.88,20.73,3.307 secs,1.402 secs,4,abFullPr,mcts
+0,187.85,57.05,68.14,21.53,0.822 secs,0.272 secs,5,abFullPr,random
